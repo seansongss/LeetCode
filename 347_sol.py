@@ -7,3 +7,5 @@ class Solution:
     
 a = Solution()
 print(a.topKFrequent([1,1,1,2,2,3], 2))
+
+#sol
