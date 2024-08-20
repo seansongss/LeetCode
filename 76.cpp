@@ -9,52 +9,39 @@ public:
 
         unordered_map<char, int> target;
         for (char c : t) {
-            if (target.find(c) == target.end()) {
-                target.insert(make_pair(c, 1));
-            } else {
-                target[c] += 1;
-            }
-            cout << c << ": ";
-            cout << target[c] << endl;
+            target[c]++;
         }
-        cout << t << endl;
+        int count = t.size();
+
+        int l = 0, r = 0, start = 0;
+        int minLen = INT_MAX;
         unordered_map<char, int> subset;
-        for (char c : s) {
-            if (subset.find(c) == subset.end()) {
-                subset.insert(make_pair(c, 1));
-            } else {
-                subset[c]++;
+        while (r < s.size()) {
+            if (target[s[r]] > 0) {
+                count--;
             }
-            cout << c << ": ";
-            cout << subset[c] << endl;
-        }
+            target[s[r]]--;
+            r++;
 
-        int l = 0;
-        int r = s.size() - 1;
-        string substring = "";
-        while (l < r) {
-            char left = s[l];
-            char right = s[r];
-            if (subset[left] - 1 < target[left] && subset[right] - 1 < target[right]) {
-                for (int i = l; i <= r; i++) {
-                    substring += s[i];
+            while (count == 0) {
+                if (r - l < minLen) {
+                    start = l;
+                    minLen = r - l;
                 }
-                return substring;
-            } else if (subset[left] - 1 < target[left]) {
-                subset[right] -= 1;
-                r -= 1;
-            } else if (subset[right] - 1 < target[right]) {
-                subset[left] -= 1;
-                l += 1;
-            } else {
-                subset[left] -= 1;
-                subset[right] -= 1;
-                l += 1;
-                r -= 1;
+
+                if (target[s[l]] == 0) {
+                    count++;
+                }
+                target[s[l]]++;
+                l++;
             }
         }
 
-        return "";
+        if (minLen == INT_MAX) {
+            return "";
+        } else {
+            return s.substr(start, minLen);
+        }
     }
 };
 
