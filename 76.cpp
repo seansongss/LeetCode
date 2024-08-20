@@ -15,7 +15,6 @@ public:
 
         int l = 0, r = 0, start = 0;
         int minLen = INT_MAX;
-        unordered_map<char, int> subset;
         while (r < s.size()) {
             if (target[s[r]] > 0) {
                 count--;
