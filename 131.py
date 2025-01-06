@@ -14,7 +14,16 @@ class Solution(object):
             
         def generate_substring(substring_list, partition, string):
             if len(string) <= 0:
-                return substring_list
+                return substring_list.append(partition)
             
-            for i in range(len(string)):
-                partition.push(string[:i])
+            for i in range(1, len(string) + 1):
+                if is_palindrome(string, 0, i - 1):
+                    generate_substring(substring_list, partition + [string[:i]], string[i:])
+            
+            return substring_list
+
+        return generate_substring([], [], s)
+
+sol = Solution().partition("aab")
+
+print(sol)
