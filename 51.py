@@ -4,14 +4,36 @@ class Solution(object):
         :type n: int
         :rtype: List[List[str]]
         """
-        board = []
-        for i in range(n):
-            board.append("." * n)
+        board = [["."] * n for _ in range(n)]
         
-        def is_reserved(board, row, col):
-            
+        res = []
+        
+        visited_cols = set()
+        visited_diagonals = set()
+        visited_antidiagonals = set()
+        
+        def backtracking(row):
+            if row == n:
+                res.append(["".join(row_info) for row_info in board])
                 
-        def plot_queen(board, row, col, plotted_queens):
-            
-            
-        
+            for col in range(n):
+                diff = row - col
+                sum = row + col
+                
+                if not (col in visited_cols or diff in visited_diagonals or sum in visited_antidiagonals):
+                    visited_cols.add(col)
+                    visited_diagonals.add(diff)
+                    visited_antidiagonals.add(sum)
+                    board[row][col] = "Q"
+                    backtracking(row + 1)
+                    
+                    visited_cols.remove(col)
+                    visited_diagonals.remove(diff)
+                    visited_antidiagonals.remove(sum)
+                    board[row][col] = "."
+                
+        backtracking(0)
+        return res
+
+sol = Solution().solveNQueens(4)
+print(sol)
